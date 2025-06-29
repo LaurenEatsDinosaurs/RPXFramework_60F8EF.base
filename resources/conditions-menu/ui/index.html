@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Conditions Menu</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+    <body>
+        <div class="menu" id="conditionsmenu">
+            <div class="head">Add/Change Conditions</div>
+            <div class="topline"></div>
+            <div class="content">
+                <span class="label"><i>How are you feeling/looking today?</i></span></br>
+                <select name="conditiontype" id="conditiontype">            <!--Dropdown to choose between types of condition; "Visual, "Smell", or "Injury/Health"-->
+                    <option value="none">None</option>
+  				    <option value="visual">Visual</option>
+  				    <option value="smell">Smell</option>
+  				    <option value="health">Injury/Health</option>
+			    </select>
+			    <input type="text" id="condition" name="condition">         <!--Condition input textbox-->
+                <button type="button" id="addbutton" class="button">&nbsp;Add&nbsp;</button><br/>
+            </div>
+
+            <div class="topline"></div>
+            <div class="head" id="transhead">Current Conditions</div>       <!--Where current Conditions are displayed-->
+            <div class="topline"></div>
+            <div class="content">
+                <span class="label"><i>How everyone else currently sees you:</i></span></br>
+                <button type="button" id="deletebutton" class="button">&nbsp;X&nbsp;</button> &nbsp; <img src="img/condition_visual.png" class="condition1type"> &nbsp; <span class="condition1">Condition 1 Condition 1 Condition 1 Condition 1</span><br/>
+                <button type="button" id="deletebutton" class="button">&nbsp;X&nbsp;</button> &nbsp; <img src="img/condition_visual.png" class="condition2type"> &nbsp; <span class="condition2">Condition 2 Condition 2 Condition 2 Condition 2</span><br/>
+                <button type="button" id="deletebutton" class="button">&nbsp;X&nbsp;</button> &nbsp; <img src="img/condition_visual.png" class="condition3type"> &nbsp; <span class="condition3">Condition 3 Condition 3 Condition 3 Condition 3</span><br/>
+                <button type="button" id="deletebutton" class="button">&nbsp;X&nbsp;</button> &nbsp; <img src="img/condition_visual.png" class="condition4type"> &nbsp; <span class="condition4">Condition 4 Condition 4 Condition 4 Condition 4</span><br/>
+                <button type="button" id="deletebutton" class="button">&nbsp;X&nbsp;</button> &nbsp; <img src="img/condition_visual.png" class="condition5type"> &nbsp; <span class="condition5">Condition 5 Condition 5 Condition 5 Condition 5</span><br/>
+            </div>    
+            <div class="footer" id="footer"></div>
+            <div class="topline"></div>
+            <button type="button" id="savebutton" class="button">&nbsp;Save&nbsp;</button> &nbsp; <button type="button" id="closebutton" class="button">&nbsp;Close&nbsp;</button>
+        </div>
+        <div id="toast"></div>
+    </body>
+    <script type="text/javascript" src="script.js"></script>
+</html>

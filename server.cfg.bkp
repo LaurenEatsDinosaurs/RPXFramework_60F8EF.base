@@ -1,0 +1,50 @@
+#            /$$$$$$$  /$$$$$$$  /$$   /$$
+#           | $$__  $$| $$__  $$| $$  / $$
+#           | $$  \ $$| $$  \ $$|  $$/ $$/
+#           | $$$$$$$/| $$$$$$$/ \  $$$$/ 
+#           | $$__  $$| $$____/   >$$  $$ 
+#           | $$  \ $$| $$       /$$/\  $$
+#           | $$  | $$| $$      | $$  \ $$
+#           |__/  |__/|__/      |__/  |__/     
+
+#               Made by Sinatra#0101
+#                 https://rpx.red/
+#          https://discord.gg/mMNJsDEFp5
+
+
+endpoint_add_tcp "0.0.0.0:30120"
+endpoint_add_udp "0.0.0.0:30120"
+sv_maxclients 48
+set steam_webApiKey "none"
+sets tags "default, deployer, rpx, rpx-core"
+
+sv_licenseKey "cfxk_T17tLWldU3m2dm6CaUS2_26GrRj"
+sv_hostname "testserver built with RPX Framework by Sinatra#0101!"
+sets sv_projectName "[RPX Framework] testserver"
+sets sv_projectDesc "An up-to-date, modular roleplay framework for RedM"
+sets locale "en-US"
+load_server_icon ServerLogo.png
+
+# IMPORTANT FOR REDM
+set gamename rdr3
+set sv_enforceGameBuild 1436
+set onesync on
+
+set mysql_connection_string "{{dbConnectionString}}"
+
+## START DEFAULT RESOURCES ##
+
+ensure chat
+ensure oxmysql
+ensure ox_lib
+ensure meta_target
+
+## START RPX RESOURCES ##
+ensure rpx-core
+ensure [RPX]
+ensure [STANDALONE]
+
+## Permissions ##
+add_ace group.admin command allow # allow all commands
+add_ace group.admin command.quit deny # but don't allow quit
+add_principal identifier.{{principalMasterIdentifier}} group.admin # add the admin to the group
