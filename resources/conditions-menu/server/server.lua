@@ -31,67 +31,6 @@ end)
 
 RPX = exports['rpx-core']:GetObject()
 
---RegisterNetEvent("conditions-menu:SERVER:SaveConditions", function(condition1type, condition1, condition2type, condition2, condition3type, condition3, condition4type, condition4, condition5type, condition5)
---    print("server event triggered")
---    local src = source
---    local Player = RPX.GetPlayer(src)
---    if not Player then return end                                                                   -- Exit if player object not found
---    
---    print("Conditions at time of serverevent:", condition1type, condition1, condition2type, condition2, condition3type, condition3, condition4type, condition4, condition5type, condition5)
---
---    local hasConditionsRecord = MySQL.Async.fetchAll('SELECT EXISTS (SELECT 1 FROM conditions WHERE citizenid = @citizenid)', { ['@citizenid'] = Player.citizenid })    -- Checks if the player has a record in the Conditions database
---    if hasConditionsRecord == nil then
---        hasConditionsRecord = 0
---    end
---    if hasConditionsRecord >= 1 then                                                                -- If the player has a record in the Conditions database, update it
---        MySQL.Async.execute([[
---            UPDATE conditions SET 
---                condition1type = @condition1type, 
---                condition1 = @condition1, 
---                condition2type = @condition2type, 
---                condition2 = @condition2, 
---                condition3type = @condition3type, 
---                condition3 = @condition3, 
---                condition4type = @condition4type, 
---                condition4 = @condition4, 
---                condition5type = @condition5type, 
---                condition5 = @condition5 
---            WHERE citizenid = @citizenid
---        ]], {
---            ['@condition1type'] = condition1type,
---            ['@condition1'] = condition1,
---            ['@condition2type'] = condition2type,
---            ['@condition2'] = condition2,
---            ['@condition3type'] = condition3type,
---            ['@condition3'] = condition3,
---            ['@condition4type'] = condition4type,
---            ['@condition4'] = condition4,
---            ['@condition5type'] = condition5type,
---            ['@condition5'] = condition5,
---            ['@citizenid'] = Player.citizenid
---        })
---    else                                                                                            -- If not, make one and add the data
---        MySQL.Async.execute([[
---            INSERT INTO conditions 
---                (citizenid, condition1type, condition1, condition2type, condition2, condition3type, condition3, condition4type, condition4, condition5type, condition5)
---            VALUES 
---                (citizenid, condition1type, condition1, condition2type, condition2, condition3type, condition3, condition4type, condition4, condition5type, condition5)
---        ]], {
---            ['citizenid'] = Player.citizenid,
---            ['condition1type'] = condition1type,
---            ['condition1'] = condition1,
---            ['condition2type'] = condition2type,
---            ['condition2'] = condition2,
---            ['condition3type'] = condition3type,
---            ['condition3'] = condition3,
---            ['condition4type'] = condition4type,
---            ['condition4'] = condition4,
---            ['condition5type'] = condition5type,
---            ['condition5'] = condition5
---        })
---    end
---end)
-
 RegisterServerEvent("conditions-menu:SERVER:OpenConditions")                                    -- Registers the event to be used cross client/server
 RegisterNetEvent("conditions-menu:SERVER:OpenConditions", function()
     local src = source

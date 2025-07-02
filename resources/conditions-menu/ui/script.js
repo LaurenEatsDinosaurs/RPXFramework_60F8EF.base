@@ -56,12 +56,6 @@ window.addEventListener("message", (event) => {                                 
         case "CLOSE_CONDITIONS":                                                                    /**If action = CLOSE_BANK - Fade out bank menu*/
             $("#conditionsmenu").fadeOut(200);
             break;
-        case "ADD_CONDITION":                                                                       /**If action = ADD_CONDITIONS - Takes new balance value from event.data object, formats, and sets that string as the HTML content of .balance. Then shows bank menu*/
-            $(".balance").html(event.data.balance.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD'
-            }));
-            break;
         default:
             return;
     }
@@ -275,9 +269,6 @@ $("#savebutton").click(function() {                                             
         condition5: condition5,        
     }));                        
 });
-
-/** For X buttons           $("#transhead").html("Withdraw");
-                            $(".transact").html("Withdraw"); */
 
 
 $(document).keyup(function(e) {                                                                     /**If ESC key is pressed, close menu */
