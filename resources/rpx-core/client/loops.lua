@@ -13,7 +13,7 @@ CreateThread(function()
     while true do
         Wait(0)
         if LocalPlayer.state.isLoggedIn then
-            Wait((1000 * 60) * Internal_Config.Player.UpdateRate)
+            Wait((1000 * 60) * Internal_Config.Player.UpdateRate) 
             TriggerServerEvent('RPX:UpdatePlayer')
         end
     end

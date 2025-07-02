@@ -210,7 +210,20 @@ RPX.Player.CreateCharacter = function(src, info, slot)
         json.encode(PlayerInfo.gang),
         json.encode(PlayerInfo.money),
         json.encode(PlayerInfo.metadata),
-        json.encode(PlayerInfo.position)
+        json.encode(PlayerInfo.position),
+    })
+    MySQL.execute('INSERT INTO conditions (`citizenid`, `condition1type`, `condition1`, `condition2type`, `condition2`, `condition3type`, `condition3`, `condition4type`, `condition4`, `condition5type`, `condition5`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', {
+        PlayerInfo.citizenid,
+        json.encode(PlayerInfo.conditions.condition1type),
+        json.encode(PlayerInfo.conditions.condition1),
+        json.encode(PlayerInfo.conditions.condition2type),
+        json.encode(PlayerInfo.conditions.condition2),
+        json.encode(PlayerInfo.conditions.condition3type),
+        json.encode(PlayerInfo.conditions.condition3),
+        json.encode(PlayerInfo.conditions.condition4type),
+        json.encode(PlayerInfo.conditions.condition4),
+        json.encode(PlayerInfo.conditions.condition5type),
+        json.encode(PlayerInfo.conditions.condition5),
     })
 
     RPX.Logs.AddLog("framework", 
@@ -241,10 +254,16 @@ end
 ---Saves the player's data to the database.
 ---@param src number The player's source.
 RPX.Player.Save = function(src)
+    local PlayerInfo = RPX.Players[src]
+    local Player = RPX.GetPlayer(src)
+    if not Player then return end    
+    
+    
     if RPX.Players[src] then
-        local PlayerInfo = RPX.Players[src]
+        print("Saving player data...")
+        
         MySQL.execute('UPDATE characters SET charinfo = ?, skin = ?, clothes = ?, job = ?, gang = ?, money = ?, metadata = ?, position = ? WHERE license = ? AND citizenid = ?', {
-            json.encode(PlayerInfo.charinfo),
+            json.encode(PlayerInfo.charinfo),                                                               -- Update character stuff (RPX)
             json.encode(PlayerInfo.skin),
             json.encode(PlayerInfo.clothes),
             json.encode(PlayerInfo.job),
@@ -253,8 +272,71 @@ RPX.Player.Save = function(src)
             json.encode(PlayerInfo.metadata),
             json.encode(PlayerInfo.position),
             PlayerInfo.license,
-            PlayerInfo.citizenid
+            PlayerInfo.citizenid,
         })
+    end
+end
+
+RPX.Player.SaveConditions = function(src)
+    local PlayerInfo = RPX.Players[src]
+    local Player = RPX.GetPlayer(src)
+    if not Player then return end    
+    if RPX.Players[src] then
+        print("Saving player data (including conditions)...")
+        
+        MySQL.execute('UPDATE characters SET charinfo = ?, skin = ?, clothes = ?, job = ?, gang = ?, money = ?, metadata = ?, position = ? WHERE license = ? AND citizenid = ?', {
+            json.encode(PlayerInfo.charinfo),                                                               -- Update character stuff (RPX)
+            json.encode(PlayerInfo.skin),
+            json.encode(PlayerInfo.clothes),
+            json.encode(PlayerInfo.job),
+            json.encode(PlayerInfo.gang),
+            json.encode(PlayerInfo.money),
+            json.encode(PlayerInfo.metadata),
+            json.encode(PlayerInfo.position),
+            PlayerInfo.license,
+            PlayerInfo.citizenid,
+        })
+        local hasConditionsRecord = 0                                                                       -- Checks if the player has a record in the Conditions database
+
+        MySQL.Async.fetchScalar('SELECT COUNT(*) FROM conditions WHERE citizenid = @citizenid', { ['@citizenid'] = PlayerInfo.citizenid}, function(hasConditionsRecord)
+            if hasConditionsRecord > 0 then                                                                 -- If the player has a record in the Conditions database, update it
+                print("Conditions record found. Time to update it!")
+                print(PlayerInfo.conditions.condition1type, PlayerInfo.conditions.condition1, PlayerInfo.conditions.condition2type, PlayerInfo.conditions.condition2)
+                MySQL.execute('UPDATE conditions SET condition1type = ?, condition1 = ?, condition2type = ?, condition2 = ?, condition3type = ?, condition3 = ?, condition4type = ?, condition4 = ?, condition5type = ?, condition5 = ? WHERE citizenid = ?', {
+                    (PlayerInfo.conditions.condition1type),
+                    (PlayerInfo.conditions.condition1),
+                    (PlayerInfo.conditions.condition2type),
+                    (PlayerInfo.conditions.condition2),
+                    (PlayerInfo.conditions.condition3type),
+                    (PlayerInfo.conditions.condition3),
+                    (PlayerInfo.conditions.condition4type),
+                    (PlayerInfo.conditions.condition4),
+                    (PlayerInfo.conditions.condition5type),
+                    (PlayerInfo.conditions.condition5),
+                    PlayerInfo.citizenid,
+                    -- THIS CORRECTLY OVERWRITES THE PERSON'S RECORD - IT JUST CURRENTLY DOESN'T HAVE ANYTHING TO PUT THERE (PUTS "")
+                    -- REMEMBER TO CHANGE THE AMOUNT OF TIME BETWEEN rpx:updateplayer TRIGGERS BACK, ONCE THIS WORKS--
+                })  
+            else                                                                                            -- If the player does not have a record in the Conditions database, make one and populate it
+                print("Conditions record not found. Time to make one!")                                     
+                MySQL.execute([[
+                    INSERT INTO conditions (citizenid, condition1type, condition1, condition2type, condition2, condition3type, condition3, condition4type, condition4, condition5type, condition5)
+                    VALUES (citizenid, condition1type, condition1, condition2type, condition2, condition3type, condition3, condition4type, condition4, condition5type, condition5)
+                ]], {
+                    ['citizenid'] = PlayerInfo.citizenid,
+                    ['condition1type'] = json.encode(PlayerInfo.conditions.condition1type),
+                    ['condition1'] = json.encode(PlayerInfo.conditions.condition1),
+                    ['condition2type'] = json.encode(PlayerInfo.conditions.condition2type),
+                    ['condition2'] = json.encode(PlayerInfo.conditions.condition2),
+                    ['condition3type'] = json.encode(PlayerInfo.conditions.condition3type),
+                    ['condition3'] = json.encode(PlayerInfo.conditions.condition3),
+                    ['condition4type'] = json.encode(PlayerInfo.conditions.condition4type),
+                    ['condition4'] = json.encode(PlayerInfo.conditions.condition4),
+                    ['condition5type'] = json.encode(PlayerInfo.conditions.condition5type),
+                    ['condition5'] = json.encode(PlayerInfo.conditions.condition5),
+                })
+            end
+        end)
     end
 end
 

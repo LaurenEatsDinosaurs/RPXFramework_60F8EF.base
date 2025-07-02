@@ -32,6 +32,7 @@ end)
 RegisterNetEvent('RPX:UpdatePlayer', function()
     local src = source
     local thePlayer = RPX.Players[src]
+
     if thePlayer then
         local oldHunger = thePlayer.metadata['hunger']
         local oldThirst = thePlayer.metadata['thirst']
@@ -42,7 +43,7 @@ RegisterNetEvent('RPX:UpdatePlayer', function()
         end
         if newThirst <= 0 then
             newThirst = 0
-        end
+        end      
         thePlayer.SetMetaData('thirst', tonumber(string.format("%.2f", newThirst)))
         thePlayer.SetMetaData('hunger', tonumber(string.format("%.2f", newHunger)))
 
@@ -133,5 +134,22 @@ RegisterServerEvent('playerConnecting', function(name, setKickReason)
     if not GetPlayerIdentifierByType(src, "license") then
         setKickReason("Could not find 'license' identifier, please relaunch RedM.")
         CancelEvent()
+    end
+end)
+
+RegisterNetEvent("SERVER:RPX:ConditionsSave", function(src,condition1type, condition1, condition2type, condition2, condition3type, condition3, condition4type, condition4, condition5type, condition5)                                                          -- From ConditionsMenu resource
+    local PlayerInfo = RPX.Players[src]
+    if RPX.Players[src] then
+        PlayerInfo.conditions.condition1type = condition1type                                           -- Saves each Player.Condition.condition[X](type) as the conditions variables passed from "conditions-menu:SERVER:SaveConditions"
+        PlayerInfo.conditions.condition1 = condition1
+        PlayerInfo.conditions.condition2type = condition2type
+        PlayerInfo.conditions.condition2 = condition2
+        PlayerInfo.conditions.condition3type = condition3type
+        PlayerInfo.conditions.condition3 = condition3
+        PlayerInfo.conditions.condition4type = condition4type
+        PlayerInfo.conditions.condition4 = condition4
+        PlayerInfo.conditions.condition5type = condition5type
+        PlayerInfo.conditions.condition5 = condition5
+        RPX.Player.SaveConditions(src)                                                                  -- Calls RPX function to save conditions
     end
 end)

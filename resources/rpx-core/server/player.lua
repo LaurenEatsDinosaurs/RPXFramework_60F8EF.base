@@ -25,8 +25,7 @@
 ---@field SetClothesData function
 ---@field SetMetaData function
 ---@field Save function
----@field AddCondition function
----@field RemoveCondition function
+---@field SetConditions function
 
 --- Create the player object.
 ---@param src any
@@ -76,16 +75,16 @@ CreatePlayer = function(src, dbdata) -- For some reason, this function doesn't s
     self.position = dbdata.position or Internal_Config.Player.DefaultPosition
 
     self.conditions = dbdata.conditions or {}
-    self.conditions.condition1type = dbdata.condition1type or {}             --Sets player's conditions to ones in database, or nothing--
-    self.conditions.condition1 = dbdata.condition1 or {}
-    self.conditions.condition2type = dbdata.condition2type or {}
-    self.conditions.condition2 = dbdata.condition2 or {}
-    self.conditions.condition3type = dbdata.condition3type or {}
-    self.conditions.condition3 = dbdata.condition3 or {}
-    self.conditions.condition4type = dbdata.condition4type or {}
-    self.conditions.condition4 = dbdata.condition4 or {}
-    self.conditions.condition5type = dbdata.condition5type or {}
-    self.conditions.condition5 = dbdata.condition5 or {}
+    self.conditions.condition1type = dbdata.condition1type or ""             --Sets player's conditions to ones in database, or nothing--
+    self.conditions.condition1 = dbdata.condition1 or ""
+    self.conditions.condition2type = dbdata.condition2type or "" 
+    self.conditions.condition2 = dbdata.condition2 or ""
+    self.conditions.condition3type = dbdata.condition3type or "" 
+    self.conditions.condition3 = dbdata.condition3 or ""
+    self.conditions.condition4type = dbdata.condition4type or "" 
+    self.conditions.condition4 = dbdata.condition4 or ""
+    self.conditions.condition5type = dbdata.condition5type or "" 
+    self.conditions.condition5 = dbdata.condition5 or ""
 
     -- Functions
     self.SetMoney = function(type, amount)
@@ -160,7 +159,18 @@ CreatePlayer = function(src, dbdata) -- For some reason, this function doesn't s
         RPX.UpdateStateBags(self.source)
     end
 
-    self.AddCondition = function()
+    self.SetConditions = function(condition1type,condition1,condition2type,condition2,condition3type,condition3,condition4type,condition4,condition5type,condition5)
+        self.conditions.condition1type = condition1type
+        self.conditions.condition1 = condition1
+        self.conditions.condition2type = condition2type
+        self.conditions.condition2 = condition2
+        self.conditions.condition3type = condition3type
+        self.conditions.condition3 = condition3
+        self.conditions.condition4type = condition4type
+        self.conditions.condition4 = condition4
+        self.conditions.condition5type = condition5type
+        self.conditions.condition5 = condition5
+        RPX.UpdateStateBags(self.source)
     end
 
     return self
