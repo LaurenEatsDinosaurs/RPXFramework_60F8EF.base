@@ -47,7 +47,7 @@ html {
 .menu {
 	font-family: "crock", crock, serif;
 	min-width: 800px;
-  height:790px;
+  height:820px;
   left:50%;
   top:50%;
   transform: translate(-50%, -50%);
@@ -203,27 +203,22 @@ input {
 }
 
 #deletebutton1 {
-  display:inline-block;
   vertical-align: middle
 }
 
 #deletebutton2 {
-  display:inline-block;
   vertical-align: middle
 }
 
 #deletebutton3 {
-  display:inline-block;
   vertical-align: middle
 }
 
 #deletebutton4 {
-  display:inline-block;
   vertical-align: middle
 }
 
 #deletebutton5 {
-  display:inline-block;
   vertical-align: middle
 }
 

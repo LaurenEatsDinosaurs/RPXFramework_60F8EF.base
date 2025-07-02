@@ -4,41 +4,13 @@ window.addEventListener("message", (event) => {                                 
     const action = event.data.action;
     switch (action) {
         case "OPEN_CONDITIONS":                                                                     /**If action = OPEN_CONDITIONS - Takes condition types and associated conditions from event.data object*/
-            const deletebutton1 = document.getElementById("deletebutton1");                         /**Find all delete buttons */
-            const deletebutton2 = document.getElementById("deletebutton2");
-            const deletebutton3 = document.getElementById("deletebutton3");
-            const deletebutton4 = document.getElementById("deletebutton4");
-            const deletebutton5 = document.getElementById("deletebutton5");
+            var deletebutton1 = document.getElementById("deletebutton1");                         /**Find all delete buttons */
+            var deletebutton2 = document.getElementById("deletebutton2");
+            var deletebutton3 = document.getElementById("deletebutton3");
+            var deletebutton4 = document.getElementById("deletebutton4");
+            var deletebutton5 = document.getElementById("deletebutton5");
 
-            if(condition1type = "None") {                                                           /**If condition is blank, don't show X button; if not, show it */
-                deletebutton1.style.display = "none";
-            } else {
-                deletebutton1.style.display = "inline-block";
-            }
-
-            if(condition2type = "None") {                                                           /**If condition is blank, don't show X button; if not, show it */
-                deletebutton2.style.display = "none";
-            } else {
-                deletebutton2.style.display = "inline-block";
-            }            
-
-            if(condition3type = "None") {                                                           /**If condition is blank, don't show X button; if not, show it */
-                deletebutton3.style.display = "none";
-            } else {
-                deletebutton3.style.display = "inline-block";
-            }            
-
-            if(condition4type = "None") {                                                           /**If condition is blank, don't show X button; if not, show it */
-                deletebutton4.style.display = "none";
-            } else {
-                deletebutton4.style.display = "inline-block";
-            }
-
-            if(condition5type = "None") {                                                           /**If condition is blank, don't show X button; if not, show it */
-                deletebutton5.style.display = "none";
-            } else {
-                deletebutton5.style.display = "inline-block";
-            }
+            console.log("event.data.condition1type is",event.data.condition1type);
 
             $(".condition1type").attr("src","img/condition_"+event.data.condition1type+".png");     /**Sets the displayed image to the appropriate one matching condition type */
             $(".condition1").html(event.data.condition1);                                           /**Sets condition1 class to condition1 variable value */
@@ -51,12 +23,42 @@ window.addEventListener("message", (event) => {                                 
             $(".condition5type").attr("src","img/condition_"+event.data.condition5type+".png");     /**Sets the displayed image to the appropriate one matching condition type */
             $(".condition5").html(event.data.condition5);                                           /**Sets condition5 class to condition5 variable value */
 
+            console.log("Start button shit");
+            console.log("event.data.condition1type is",event.data.condition1type);
+            if(event.data.condition1type.includes("None")) {                                        /**If condition is blank, don't show X button; if not, show it */
+                deletebutton1.style.display = "none";
+            } else {
+                deletebutton1.style.display = "inline-block";
+            }
+
+            if(event.data.condition2type.includes("None")) {                                        /**If condition is blank, don't show X button; if not, show it */
+                deletebutton2.style.display = "none";
+            } else {
+                deletebutton2.style.display = "inline-block";
+            }            
+
+            if(event.data.condition3type.includes("None")) {                                        /**If condition is blank, don't show X button; if not, show it */
+                deletebutton3.style.display = "none";
+            } else {
+                deletebutton3.style.display = "inline-block";
+            }            
+
+            if(event.data.condition4type.includes("None")) {                                        /**If condition is blank, don't show X button; if not, show it */
+                deletebutton4.style.display = "none";
+            } else {
+                deletebutton4.style.display = "inline-block";
+            }
+
+            if(event.data.condition5type.includes("None")) {                                        /**If condition is blank, don't show X button; if not, show it */
+                deletebutton5.style.display = "none";
+            } else {
+                deletebutton5.style.display = "inline-block";
+            }
+
             $("#conditionsmenu").fadeIn(200);
-            DisableCamera();
             break;
         case "CLOSE_CONDITIONS":                                                                    /**If action = CLOSE_BANK - Fade out bank menu*/
             $("#conditionsmenu").fadeOut(200);
-            EnableCamera();
             break;
         case "ADD_CONDITION":                                                                       /**If action = ADD_CONDITIONS - Takes new balance value from event.data object, formats, and sets that string as the HTML content of .balance. Then shows bank menu*/
             $(".balance").html(event.data.balance.toLocaleString('en-US', {
@@ -69,38 +71,48 @@ window.addEventListener("message", (event) => {                                 
     }
 });
 
+$("#addbutton").click(function() {                                                                 /*When an element with class "#addbutton" is clicked*/ 
+    
+
+    /**Check which space is open
+     * If no space open, toast "delete one first"
+     * if 1 is open, put it in 1, etc
+     */
+});
+
+
 $("#deletebutton1").click(function() {                                                              /*When an element with class "#deletebutton1" is clicked*/ 
     $(".condition1type").attr("src","img/condition_None.png");                                      /**Sets image to "None" (empty black) */
     $(".condition1").html("");                                                                      /**Sets condition1 text to "" */
-    const deletebutton1 = document.getElementById("deletebutton1");
+    var deletebutton1 = document.getElementById("deletebutton1");
     deletebutton1.style.display = "none";
 });
 
 $("#deletebutton2").click(function() {                                                              /*When an element with class "#deletebutton2" is clicked*/ 
     $(".condition2type").attr("src","img/condition_None.png");                                      /**Sets image to "None" (empty black) */
     $(".condition2").html("");                                                                      /**Sets condition1 text to "" */
-    const deletebutton2 = document.getElementById("deletebutton2");
+    var deletebutton2 = document.getElementById("deletebutton2");
     deletebutton2.style.display = "none";
 });
 
 $("#deletebutton3").click(function() {                                                              /*When an element with class "#deletebutton3" is clicked*/ 
     $(".condition3type").attr("src","img/condition_None.png");                                      /**Sets field1's image to "None" (empty black) */
     $(".condition3").html("");                                                                      /**Sets condition1 text to "" */
-    const deletebutton3 = document.getElementById("deletebutton3");
+    var deletebutton3 = document.getElementById("deletebutton3");
     deletebutton3.style.display = "none";
 });
 
 $("#deletebutton4").click(function() {                                                              /*When an element with class "#deletebutton4" is clicked*/ 
     $(".condition4type").attr("src","img/condition_None.png");                                      /**Sets field1's image to "None" (empty black) */
     $(".condition4").html("");                                                                      /**Sets condition1 text to "" */
-    const deletebutton4 = document.getElementById("deletebutton4");
+    var deletebutton4 = document.getElementById("deletebutton4");
     deletebutton4.style.display = "none";
 });
 
 $("#deletebutton5").click(function() {                                                              /*When an element with class "#deletebutton5" is clicked*/ 
     $(".condition5type").attr("src","img/condition_None.png");                                      /**Sets field1's image to "None" (empty black) */
     $(".condition5").html("");                                                                      /**Sets condition1 text to "" */
-    const deletebutton5 = document.getElementById("deletebutton5");
+    var deletebutton5 = document.getElementById("deletebutton5");
     deletebutton5.style.display = "none";
 });
 
