@@ -277,6 +277,9 @@ RPX.Player.Save = function(src)
     end
 end
 
+
+-- CALLED BY "conditions-menu:Server:SaveConditions" (IN conditions-menu/server/server.lua)
+-- SAVES PLAYER CHARACTER'S DATA IN THE CONDITIONS DATABASE (Also saves PlayerInfo stuff first, just like the normal RPX.Player.Save function does)
 RPX.Player.SaveConditions = function(src)
     local PlayerInfo = RPX.Players[src]
     local Player = RPX.GetPlayer(src)
@@ -284,6 +287,7 @@ RPX.Player.SaveConditions = function(src)
     if RPX.Players[src] then
         print("Saving player data (including conditions)...")
         
+        --SAVES THE PLAYER CHARACTERS'S INFO IN THE CHARACTERS DATABASE (SEE RPX.PLAYER.SAVE)
         MySQL.execute('UPDATE characters SET charinfo = ?, skin = ?, clothes = ?, job = ?, gang = ?, money = ?, metadata = ?, position = ? WHERE license = ? AND citizenid = ?', {
             json.encode(PlayerInfo.charinfo),                                                               -- Update character stuff (RPX)
             json.encode(PlayerInfo.skin),
@@ -298,6 +302,7 @@ RPX.Player.SaveConditions = function(src)
         })
         local hasConditionsRecord = 0                                                                       -- Checks if the player has a record in the Conditions database
 
+        --SAVES THE PLAYER CHARACTER'S CONDITIONS INFO IN THE CONDITIONS DATABASE
         MySQL.Async.fetchScalar('SELECT COUNT(*) FROM conditions WHERE citizenid = @citizenid', { ['@citizenid'] = PlayerInfo.citizenid}, function(hasConditionsRecord)
             if hasConditionsRecord > 0 then                                                                 -- If the player has a record in the Conditions database, update it
                 print("Conditions record found. Time to update it!")
@@ -314,8 +319,6 @@ RPX.Player.SaveConditions = function(src)
                     (PlayerInfo.conditions.condition5type),
                     (PlayerInfo.conditions.condition5),
                     PlayerInfo.citizenid,
-                    -- THIS CORRECTLY OVERWRITES THE PERSON'S RECORD - IT JUST CURRENTLY DOESN'T HAVE ANYTHING TO PUT THERE (PUTS "")
-                    -- REMEMBER TO CHANGE THE AMOUNT OF TIME BETWEEN rpx:updateplayer TRIGGERS BACK, ONCE THIS WORKS--
                 })  
             else                                                                                            -- If the player does not have a record in the Conditions database, make one and populate it
                 print("Conditions record not found. Time to make one!")                                     

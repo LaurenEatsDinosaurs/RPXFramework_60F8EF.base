@@ -1,10 +1,12 @@
 var ShowingToast = false;
 
+/**EVENT LISTENER FOR OPENING/CLOSING CONDITIONS MENU NUI 
+ * (FROM "conditions-menu:client:OpenConditions")*/
 window.addEventListener("message", (event) => {                                                     /**When a message is sent to the window object */
     const action = event.data.action;
     switch (action) {
         case "OPEN_CONDITIONS":                                                                     /**If action = OPEN_CONDITIONS - Takes condition types and associated conditions from event.data object*/
-            var deletebutton1 = document.getElementById("deletebutton1");                         /**Find all delete buttons */
+            var deletebutton1 = document.getElementById("deletebutton1");                           /**Find all delete buttons (Used later to hide them when associated slot is empty)*/
             var deletebutton2 = document.getElementById("deletebutton2");
             var deletebutton3 = document.getElementById("deletebutton3");
             var deletebutton4 = document.getElementById("deletebutton4");
@@ -51,7 +53,7 @@ window.addEventListener("message", (event) => {                                 
                 deletebutton5.style.display = "inline-block";
             }
 
-            $("#conditionsmenu").fadeIn(200);
+            $("#conditionsmenu").fadeIn(200);                                                       /**Open the Conditions Menu */
             break;
         case "CLOSE_CONDITIONS":                                                                    /**If action = CLOSE_BANK - Fade out bank menu*/
             $("#conditionsmenu").fadeOut(200);
@@ -61,12 +63,14 @@ window.addEventListener("message", (event) => {                                 
     }
 });
 
-$("#addbutton").click(function() {                                                                                                                  /*When an element with class "#addbutton" is clicked*/ 
-    var conditiontextbox = document.getElementById("condition");
-    var conditiondropdown = document.getElementById("conditiontype");
 
-    let condition1image = document.getElementById("condition1type");                                                                                /**Refers to the elementID for each image, so we can grab the image source */
-    condition1src = condition1image.getAttribute("src");
+/**ADD BUTTON FUNCTIONALITY*/
+$("#addbutton").click(function() {                                                                  /*When an element with class "#addbutton" is clicked*/ 
+    var conditiontextbox = document.getElementById("condition");                                    /**Find input textbox (Used later to find its contents and set them into the next available slot on Add)*/
+    var conditiondropdown = document.getElementById("conditiontype");                               /**Find conditiontype dropdown (Used later to find its current selection and set that into the next available slot on Add) */
+
+    let condition1image = document.getElementById("condition1type");                                /**Finds each condition[x] associated type image (Visual/Health/Smell/None), so we can grab the image source */
+    condition1src = condition1image.getAttribute("src");                                            /**Grabs each condition[x]image's source */
     let condition2image = document.getElementById("condition2type");                                                                                
     condition2src = condition2image.getAttribute("src");
     let condition3image = document.getElementById("condition3type");                                                                                
@@ -75,7 +79,10 @@ $("#addbutton").click(function() {                                              
     condition4src = condition4image.getAttribute("src");
     let condition5image = document.getElementById("condition5type");                                                                                
     condition5src = condition5image.getAttribute("src");
-  
+
+
+    /**DISPLAYS TOAST ERROR IF CONDITION TYPE IS NOT SELECTED AND/OR NOTHING IS TYPED IN TEXTBOX
+     * OTHERWISE ADDS TO NEXT AVAILABLE SLOT, OR TOAST ERRORS IF ALL SLOTS ARE FULL */
     if(conditiontextbox !== null && conditiontextbox.value === "") {                                                                                        /**If the textbox is empty, display toast error*/
        Toast("Please enter a condition.", 2500);
     } else {                                                                                                                                                /**If no condition type has been selected, display toast error */
@@ -106,6 +113,8 @@ $("#addbutton").click(function() {                                              
                                 $(".condition5type").attr("src","img/condition_"+conditiondropdown.options[conditiondropdown.selectedIndex].text+".png");   /**Make Condition5type equal to dropdown selection */
                                 $(".condition5").html(conditiontextbox.value);                                                                              /**Make Condition5 equal to textbox input */
                                 deletebutton5.style.display = "inline-block";                                                                               /**Show delete button */
+                            } else {
+                                Toast("5 condition max reached; please delete one first, before you add a new one!", 2500)                                  /**If no slots are open, display toast error */
                             }
                         }
                     }
@@ -116,49 +125,55 @@ $("#addbutton").click(function() {                                              
 });
 
 
+/**DELETE BUTTONS FUNCTIONALITY*/
 $("#deletebutton1").click(function() {                                                              /*When an element with class "#deletebutton1" is clicked*/ 
     $(".condition1type").attr("src","img/condition_None.png");                                      /**Sets image to "None" (empty black) */
     $(".condition1").html("");                                                                      /**Sets condition1 text to "" */
-    var deletebutton1 = document.getElementById("deletebutton1");
-    deletebutton1.style.display = "none";
+    var deletebutton1 = document.getElementById("deletebutton1");                                   
+    deletebutton1.style.display = "none";                                                           /**Hide associated delete button */
 });
 
 $("#deletebutton2").click(function() {                                                              /*When an element with class "#deletebutton2" is clicked*/ 
     $(".condition2type").attr("src","img/condition_None.png");                                      /**Sets image to "None" (empty black) */
     $(".condition2").html("");                                                                      /**Sets condition1 text to "" */
     var deletebutton2 = document.getElementById("deletebutton2");
-    deletebutton2.style.display = "none";
+    deletebutton2.style.display = "none";                                                           /**Hide associated delete button */
 });
 
 $("#deletebutton3").click(function() {                                                              /*When an element with class "#deletebutton3" is clicked*/ 
     $(".condition3type").attr("src","img/condition_None.png");                                      /**Sets field1's image to "None" (empty black) */
     $(".condition3").html("");                                                                      /**Sets condition1 text to "" */
     var deletebutton3 = document.getElementById("deletebutton3");
-    deletebutton3.style.display = "none";
+    deletebutton3.style.display = "none";                                                           /**Hide associated delete button */
 });
 
 $("#deletebutton4").click(function() {                                                              /*When an element with class "#deletebutton4" is clicked*/ 
     $(".condition4type").attr("src","img/condition_None.png");                                      /**Sets field1's image to "None" (empty black) */
     $(".condition4").html("");                                                                      /**Sets condition1 text to "" */
     var deletebutton4 = document.getElementById("deletebutton4");
-    deletebutton4.style.display = "none";
+    deletebutton4.style.display = "none";                                                           /**Hide associated delete button */
 });
 
 $("#deletebutton5").click(function() {                                                              /*When an element with class "#deletebutton5" is clicked*/ 
     $(".condition5type").attr("src","img/condition_None.png");                                      /**Sets field1's image to "None" (empty black) */
     $(".condition5").html("");                                                                      /**Sets condition1 text to "" */
     var deletebutton5 = document.getElementById("deletebutton5");
-    deletebutton5.style.display = "none";
+    deletebutton5.style.display = "none";                                                           /**Hide associated delete button */
 });
 
+
+/**CLOSE BUTTON FUNCTIONALITY */
 $("#closebutton").click(function() {                                                                /*When an element with class "#closebutton" is clicked*/
-    $("#conditionsmenu").fadeOut(200); 
-    $.post(`https://${GetParentResourceName()}/CloseNUI`);                                          /**Sends POST request to URL (based on resource name) to notify server that closeNUI action has occurred */
+    $("#conditionsmenu").fadeOut(200);                                                              /**Close the Conditions Menu */
+    $.post(`https://${GetParentResourceName()}/CloseNUI`);                                          /**Sends POST request to URL (based on resource name, in this case conditions-menu/client/client.lua) to notify server that closeNUI action has occurred */
 });
 
+
+/**SAVE BUTTON FUNCTIONALITY*/
 $("#savebutton").click(function() {                                                                 /*When an element with class "#savebutton" is clicked*/ 
-    let condition1image = document.getElementById("condition1type");                                /**Refers to the elementID for each image, so we can grab the image source */
-    condition1src = condition1image.getAttribute("src");
+    /**SETS CONDITION[X]TYPE and CONDITION[X] VARIABLES TO WHAT'S DISPLAYED ON NUI*/
+    let condition1image = document.getElementById("condition1type");                                /**Refers to the elementID for each image (So we can grab the image source */
+    condition1src = condition1image.getAttribute("src");                                            /**Grab the image's src */
     if (condition1src.includes("Health")) {                                                         /**Checks if the image source contains "Health", "Visual", "Smell", or "None" */
         condition1type = "Health";                                                                  /**Sets conditiontype depending on whether Health/Visual/Smell/None */
     } else {
@@ -170,6 +185,8 @@ $("#savebutton").click(function() {                                             
             } else {
                 if(condition1src.includes("None")) {
                     condition1type = "None";
+                } else {
+                    Toast("Condition 1 condition1type not found. Please report this bug", 2500)     /**Displays toast error if conditiontype is not "Health", "Visual", "Smell", or "None" */
                 }
             }
         }
@@ -188,6 +205,8 @@ $("#savebutton").click(function() {                                             
             } else {
                 if(condition2src.includes("None")) {
                     condition2type = "None";
+                } else {
+                    Toast("Condition 2 condition2type not found. Please report this bug", 2500)     /**Displays toast error if conditiontype is not "Health", "Visual", "Smell", or "None" */
                 }
             }
         }
@@ -206,6 +225,8 @@ $("#savebutton").click(function() {                                             
             } else {
                 if(condition3src.includes("None")) {
                     condition3type = "None";
+                } else {
+                    Toast("Condition 3 condition3type not found. Please report this bug", 2500)     /**Displays toast error if conditiontype is not "Health", "Visual", "Smell", or "None" */
                 }
             }
         }
@@ -224,6 +245,8 @@ $("#savebutton").click(function() {                                             
             } else {
                 if(condition4src.includes("None")) {
                     condition4type = "None";
+                } else {
+                    Toast("Condition 4 condition4type not found. Please report this bug", 2500)     /**Displays toast error if conditiontype is not "Health", "Visual", "Smell", or "None" */
                 }
             }
         }
@@ -242,6 +265,8 @@ $("#savebutton").click(function() {                                             
             } else {
                 if(condition5src.includes("None")) {
                     condition5type = "None";
+                } else {
+                    Toast("Condition 4 condition4type not found. Please report this bug", 2500)     /**Displays toast error if conditiontype is not "Health", "Visual", "Smell", or "None" */
                 }
             }
         }
@@ -253,11 +278,11 @@ $("#savebutton").click(function() {                                             
     let condition4 = document.getElementById("condition4").innerHTML;
     let condition5 = document.getElementById("condition5").innerHTML;
 
-    console.log("On save, conditions are",condition1type,condition1,condition2type,condition2,condition3type,condition3,condition4type,condition4,condition5type,condition5)
-
     $("#conditionsmenu").fadeOut(200);                                                              /**Fades out conditions menu*/ 
-    $.post(`https://${GetParentResourceName()}/SaveConditions`,JSON.stringify({                     /**Sends POST request to URL (based on resource name) to notify server that closeNUI action has occurred */
-        condition1type: condition1type,                                                             /**Also sends the variables (hopefully) */
+
+    /**SENDS CLOSE NUI POST REQUEST, AND SENDS CONDITION[X]TYPE AND CONDITION[X] VARIABLES BACK*/
+    $.post(`https://${GetParentResourceName()}/SaveConditions`,JSON.stringify({                     /**Sends POST request to URL (based on resource name, in this case CloseConditions client.lua) to notify server that closeNUI action has occurred */
+        condition1type: condition1type,                                                             /**Also sends the variables*/
         condition1: condition1, 
         condition2type: condition2type,
         condition2: condition2,
@@ -271,22 +296,25 @@ $("#savebutton").click(function() {                                             
 });
 
 
-$(document).keyup(function(e) {                                                                     /**If ESC key is pressed, close menu */
-    if (e.keyCode == 27) {
-        $("#conditionsmenu").fadeOut(200);
+/**HOTKEY FUNCTIONALITY FOR ESC TO CLOSE OUT OF CONDITIONS MENU */
+$(document).keyup(function(e) {                                                                     
+    if (e.keyCode == 27) {                                                                          /**If ESC key is pressed*/
+        $("#conditionsmenu").fadeOut(200);                                                          /**Close Conditions Menu */
         $.post(`https://${GetParentResourceName()}/CloseNUI`);                                      /**Sends POST request to URL (based on resource name) to notify server that closeNUI action has occurred */
     }
 });
 
-Toast = function(text, time) {                                                                      /**Check no toast already being shown, then update to show given text, fade in for 2.5 seconds, fade out for 2.5 seconds, then clears the toast of the text*/
-    if(!ShowingToast) {
-        ShowingToast = true; 
-        $("#toast").html("<p>" + text + "</p>");
-        $("#toast").fadeIn(250, function () {
-            setTimeout(function() {
-                $("#toast").fadeOut(250, function () {
-                    $("#toast").html("");
-                    ShowingToast = false;
+
+/**FUNCTIONALITY FOR TOASTS */
+Toast = function(text, time) {                                                                      /**Receives text and time values from "Toast(TEXT, TIME)" call*/
+    if(!ShowingToast) {                                                                             /**If not already showing a toast */
+        ShowingToast = true;                                                                        /**Set to ShowingToast */
+        $("#toast").html("<p>" + text + "</p>");                                                    /**Set content of toast to whatever the error is*/
+        $("#toast").fadeIn(250, function () {                                                       /**Show the toast */
+            setTimeout(function() {                                                                 /**Wait for specified time in seconds ("Toast(XXXX)") */
+                $("#toast").fadeOut(250, function () {                                              /**Fade out toast */
+                    $("#toast").html("");                                                           /**Empty the contents of the toast */
+                    ShowingToast = false;                                                           /**Set as no longer showing a toast */
                 });
             }, time);
         });

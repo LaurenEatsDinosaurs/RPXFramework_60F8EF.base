@@ -75,15 +75,15 @@ CreatePlayer = function(src, dbdata) -- For some reason, this function doesn't s
     self.position = dbdata.position or Internal_Config.Player.DefaultPosition
 
     self.conditions = dbdata.conditions or {}
-    self.conditions.condition1type = dbdata.condition1type or ""             --Sets player's conditions to ones in database, or nothing--
+    self.conditions.condition1type = dbdata.condition1type or "None"             --Sets player's conditions to ones in database, or nothing--
     self.conditions.condition1 = dbdata.condition1 or ""
-    self.conditions.condition2type = dbdata.condition2type or "" 
+    self.conditions.condition2type = dbdata.condition2type or "None" 
     self.conditions.condition2 = dbdata.condition2 or ""
-    self.conditions.condition3type = dbdata.condition3type or "" 
+    self.conditions.condition3type = dbdata.condition3type or "None" 
     self.conditions.condition3 = dbdata.condition3 or ""
-    self.conditions.condition4type = dbdata.condition4type or "" 
+    self.conditions.condition4type = dbdata.condition4type or "None" 
     self.conditions.condition4 = dbdata.condition4 or ""
-    self.conditions.condition5type = dbdata.condition5type or "" 
+    self.conditions.condition5type = dbdata.condition5type or "None" 
     self.conditions.condition5 = dbdata.condition5 or ""
 
     -- Functions
