@@ -85,7 +85,7 @@ end)
 
 -- When the save button is pressed, trigger server event saveConditions, and send it the conditions
 RegisterNUICallback('SaveConditions', function(data, cb)                                        -- Receives what is in the html for each condition, triggers conditions-menu:Server:SaveConditions
-    TriggerServerEvent('conditions-menu:Server:SaveConditions')
+    TriggerServerEvent('conditions-menu:Server:SaveConditions',data.condition1type,data.condition1,data.condition2type,data.condition2,data.condition3type,data.condition3,data.condition4type,data.condition4,data.condition5type,data.condition5)
     cb('ok')
     CloseConditions()
 end)

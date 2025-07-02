@@ -188,6 +188,7 @@ input {
 
 #closebutton {
   display:inline-block;
+  vertical-align: middle;
   margin-top:10px;
   margin-right:300px;
   float:right;
@@ -195,12 +196,33 @@ input {
 
 #savebutton {
   display:inline-block;
+  vertical-align: middle;
   margin-top:10px;
   margin-left:300px;
   float:left;
 }
 
-#deletebutton {
+#deletebutton1 {
+  display:inline-block;
+  vertical-align: middle
+}
+
+#deletebutton2 {
+  display:inline-block;
+  vertical-align: middle
+}
+
+#deletebutton3 {
+  display:inline-block;
+  vertical-align: middle
+}
+
+#deletebutton4 {
+  display:inline-block;
+  vertical-align: middle
+}
+
+#deletebutton5 {
   display:inline-block;
   vertical-align: middle
 }
