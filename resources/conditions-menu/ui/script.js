@@ -10,8 +10,6 @@ window.addEventListener("message", (event) => {                                 
             var deletebutton4 = document.getElementById("deletebutton4");
             var deletebutton5 = document.getElementById("deletebutton5");
 
-            console.log("event.data.condition1type is",event.data.condition1type);
-
             $(".condition1type").attr("src","img/condition_"+event.data.condition1type+".png");     /**Sets the displayed image to the appropriate one matching condition type */
             $(".condition1").html(event.data.condition1);                                           /**Sets condition1 class to condition1 variable value */
             $(".condition2type").attr("src","img/condition_"+event.data.condition2type+".png");     /**Sets the displayed image to the appropriate one matching condition type */
@@ -23,8 +21,6 @@ window.addEventListener("message", (event) => {                                 
             $(".condition5type").attr("src","img/condition_"+event.data.condition5type+".png");     /**Sets the displayed image to the appropriate one matching condition type */
             $(".condition5").html(event.data.condition5);                                           /**Sets condition5 class to condition5 variable value */
 
-            console.log("Start button shit");
-            console.log("event.data.condition1type is",event.data.condition1type);
             if(event.data.condition1type.includes("None")) {                                        /**If condition is blank, don't show X button; if not, show it */
                 deletebutton1.style.display = "none";
             } else {
@@ -71,13 +67,58 @@ window.addEventListener("message", (event) => {                                 
     }
 });
 
-$("#addbutton").click(function() {                                                                 /*When an element with class "#addbutton" is clicked*/ 
-    
+$("#addbutton").click(function() {                                                                                                                  /*When an element with class "#addbutton" is clicked*/ 
+    var conditiontextbox = document.getElementById("condition");
+    var conditiondropdown = document.getElementById("conditiontype");
 
-    /**Check which space is open
-     * If no space open, toast "delete one first"
-     * if 1 is open, put it in 1, etc
-     */
+    let condition1image = document.getElementById("condition1type");                                                                                /**Refers to the elementID for each image, so we can grab the image source */
+    condition1src = condition1image.getAttribute("src");
+    let condition2image = document.getElementById("condition2type");                                                                                
+    condition2src = condition2image.getAttribute("src");
+    let condition3image = document.getElementById("condition3type");                                                                                
+    condition3src = condition3image.getAttribute("src");
+    let condition4image = document.getElementById("condition4type");                                                                                
+    condition4src = condition4image.getAttribute("src");
+    let condition5image = document.getElementById("condition5type");                                                                                
+    condition5src = condition5image.getAttribute("src");
+  
+    if(conditiontextbox !== null && conditiontextbox.value === "") {                                                                                        /**If the textbox is empty, display toast error*/
+       Toast("Please enter a condition.", 2500);
+    } else {                                                                                                                                                /**If no condition type has been selected, display toast error */
+        if(conditiondropdown !== null && conditiondropdown.options[conditiondropdown.selectedIndex].text === "None") {
+            Toast("Please select a condition type.", 2500);
+        } else {                                                                                                                                            /**If textbox has text and condition type is selected, proceed with add */
+            if(condition1src.includes("None")) {                                                                                                            /**If Condition1 slot is empty */
+                $(".condition1type").attr("src","img/condition_"+conditiondropdown.options[conditiondropdown.selectedIndex].text+".png");                   /**Make Condition1type equal to dropdown selection */
+                $(".condition1").html(conditiontextbox.value);                                                                                              /**Make Condition1 equal to textbox input */
+                deletebutton1.style.display = "inline-block";                                                                                               /**Show delete button */
+            } else {
+                if(condition2src.includes("None")) {                                                                                                        /**If Condition2 slot is empty */
+                    $(".condition2type").attr("src","img/condition_"+conditiondropdown.options[conditiondropdown.selectedIndex].text+".png");               /**Make Condition2type equal to dropdown selection */
+                    $(".condition2").html(conditiontextbox.value);                                                                                          /**Make Condition2 equal to textbox input */
+                    deletebutton2.style.display = "inline-block";                                                                                           /**Show delete button */
+                } else {
+                    if(condition3src.includes("None")) {                                                                                                    /**If Condition3 slot is empty */
+                        $(".condition3type").attr("src","img/condition_"+conditiondropdown.options[conditiondropdown.selectedIndex].text+".png");           /**Make Condition3type equal to dropdown selection */
+                        $(".condition3").html(conditiontextbox.value);                                                                                      /**Make Condition3 equal to textbox input */
+                        deletebutton3.style.display = "inline-block";                                                                                       /**Show delete button */
+                    } else {
+                        if(condition4src.includes("None")) {                                                                                                /**If Condition4 slot is empty */
+                            $(".condition4type").attr("src","img/condition_"+conditiondropdown.options[conditiondropdown.selectedIndex].text+".png");       /**Make Condition4type equal to dropdown selection */
+                            $(".condition4").html(conditiontextbox.value);                                                                                  /**Make Condition4 equal to textbox input */
+                            deletebutton4.style.display = "inline-block";                                                                                   /**Show delete button */
+                        } else {
+                            if(condition5src.includes("None")) {                                                                                            /**If Condition5 slot is empty */
+                                $(".condition5type").attr("src","img/condition_"+conditiondropdown.options[conditiondropdown.selectedIndex].text+".png");   /**Make Condition5type equal to dropdown selection */
+                                $(".condition5").html(conditiontextbox.value);                                                                              /**Make Condition5 equal to textbox input */
+                                deletebutton5.style.display = "inline-block";                                                                               /**Show delete button */
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 });
 
 
